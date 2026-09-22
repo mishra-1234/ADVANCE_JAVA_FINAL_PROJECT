@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="description" content="CyberShield Security Operations Dashboard.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+
+<div class="app" id="app">
+
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar__brand">
+      <span class="brand__mark" aria-hidden="true">
+        <svg viewBox="0 0 40 40" width="30" height="30" fill="none">
+          <path d="M20 3 L34 8.5V19C34 27.5 28 33.8 20 37C12 33.8 6 27.5 6 19V8.5L20 3Z" fill="url(#shieldGrad)"/>
+          <path d="M14.5 20L18 23.5L26 15.5" stroke="#f8fafc" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <defs>
+            <linearGradient id="shieldGrad" x1="6" y1="3" x2="34" y2="37" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#2563eb"/><stop offset="1" stop-color="#1e293b"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </span>
+            <span class="brand__text">Cyber<strong>Shield</strong></span>
+        </div>
+
+        <nav class="sidebar__nav" aria-label="Primary">
+            <a href="#dashboard" class="nav-item is-active" data-page="dashboard">
+                <span class="nav-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="19" height="19" fill="none"><rect x="3" y="3" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.7"/><rect x="13" y="3" width="8" height="5" rx="1.5" stroke="currentColor" stroke-width="1.7"/><rect x="13" y="11" width="8" height="10" rx="1.5" stroke="currentColor" stroke-width="1.7"/><rect x="3" y="13" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.7"/></svg></span>
+                <span>Dashboard</span>
+            </a>
+            <a href="report-incident.jsp" class="nav-item">
+    <span class="nav-item__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none">
+            <path d="M12 3v18M3 12h18"
+                  stroke="currentColor"
+                  stroke-width="1.9"
+                  stroke-linecap="round"/>
+        </svg>
+    </span>
+                <span>Report Incident</span>
+            </a>
+            <a href="#my-incidents" class="nav-item" data-page="my-incidents">
+                <span class="nav-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="19" height="19" fill="none"><path d="M6 3h9l5 5v13a1 1 0 01-1 1H6a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M14 3v5h5" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span>
+                <span>My Incidents</span>
+            </a>
+            <a href="#all-incidents" class="nav-item" data-page="all-incidents">
+                <span class="nav-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="19" height="19" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></span>
+                <span>All Incidents</span>
+            </a>
+            <a href="#notifications" class="nav-item" data-page="notifications">
+                <span class="nav-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="19" height="19" fill="none"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.7 21a2 2 0 01-3.4 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+                <span>Notifications</span>
+                <span class="nav-item__badge" id="sidebarNotifBadge">3</span>
+            </a>
+            <a href="#profile" class="nav-item" data-page="profile">
+                <span class="nav-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="19" height="19" fill="none"><circle cx="12" cy="8" r="3.3" stroke="currentColor" stroke-width="1.7"/><path d="M5 20c0-3.9 3.1-6 7-6s7 2.1 7 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+                <span>Profile</span>
+            </a>
+            <a href="#settings" class="nav-item" data-page="settings">
+                <span class="nav-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="19" height="19" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.7"/><path d="M19.4 13.5a1.7 1.7 0 000-3l1.2-1.7-1.7-1.7-1.7 1.2a1.7 1.7 0 00-3 0l-.4-2h-2.4l-.4 2a1.7 1.7 0 00-3 0L6.3 7.1 4.6 8.8l1.2 1.7a1.7 1.7 0 000 3L4.6 15.2l1.7 1.7 1.7-1.2a1.7 1.7 0 003 0l.4 2h2.4l.4-2a1.7 1.7 0 003 0l1.7 1.2 1.7-1.7-1.2-1.7z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></span>
+                <span>Settings</span>
+            </a>
+        </nav>
+
+        <button type="button" class="sidebar__logout" id="logoutBtn">
+            <span class="nav-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="19" height="19" fill="none"><path d="M9 21H5a1 1 0 01-1-1V4a1 1 0 011-1h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span>Logout</span>
+        </button>
+    </aside>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- ============ MAIN ============ -->
+    <div class="main">
+
+        <!-- TOP NAVBAR -->
+        <header class="topbar">
+            <div class="topbar__left">
+                <button type="button" class="icon-btn sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar" aria-expanded="false">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+                </button>
+                <h1 class="topbar__title">Security Dashboard</h1>
+            </div>
+
+            <div class="topbar__search">
+                <svg viewBox="0 0 24 24" width="17" height="17" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M21 21l-4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                <input type="search" id="incidentSearch" placeholder="Search incidents..." aria-label="Search incidents">
+            </div>
+
+            <div class="topbar__right">
+                <div class="dropdown" id="notifDropdown">
+                    <button type="button" class="icon-btn" id="notifBtn" aria-label="Notifications" aria-haspopup="true" aria-expanded="false">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.7 21a2 2 0 01-3.4 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+                        <span class="icon-btn__dot" id="notifDot">3</span>
+                    </button>
+                    <div class="dropdown__panel" id="notifPanel" role="menu">
+                        <div class="dropdown__header">Notifications</div>
+                        <ul class="notif-list" id="notifList"></ul>
+                    </div>
+                </div>
+
+                <div class="dropdown" id="profileDropdown">
+                    <button type="button" class="profile-trigger" id="profileBtn" aria-haspopup="true" aria-expanded="false">
+                        <span class="avatar" aria-hidden="true" id="userAvatar">U</span>
+                        <span class="profile-trigger__text">
+              <span class="profile-trigger__name" id="userNameDisplay">Loading...</span>
+              <span class="profile-trigger__role" id="userRoleDisplay">—</span>
+            </span>
+                        <svg viewBox="0 0 24 24" width="15" height="15" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </button>
+                    <div class="dropdown__panel dropdown__panel--profile" id="profilePanel" role="menu">
+                        <a href="#profile" class="dropdown__item">View Profile</a>
+                        <a href="#settings" class="dropdown__item">Settings</a>
+                        <button type="button" class="dropdown__item dropdown__item--danger" id="profileLogoutBtn">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- CONTENT -->
+        <main class="content">
+
+            <!-- Greeting -->
+            <div class="greeting reveal">
+                <div>
+                    <p class="eyebrow">// OVERVIEW</p>
+                    <h2>Welcome back, <span id="greetingName">Analyst</span>✌️</h2>
+                    <p class="greeting__sub">Here's what's happening across your organization today.</p>
+                </div>
+                <span class="status-chip">
+          <span class="status-dot" aria-hidden="true"></span>
+          SYSTEM SECURE
+        </span>
+            </div>
+
+            <!-- STATS -->
+            <section class="stats-grid" aria-label="Incident statistics">
+                <article class="stat-card reveal">
+                    <div class="stat-card__top">
+            <span class="stat-card__icon stat-card__icon--info" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none"><path d="M4 20V10M12 20V4M20 20v-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </span>
+                        <span class="stat-card__trend stat-card__trend--up">▲ 4.2%</span>
+                    </div>
+                    <span class="stat-card__value" data-count="128">0</span>
+                    <span class="stat-card__label">Total Incidents</span>
+                </article>
+
+                <article class="stat-card reveal">
+                    <div class="stat-card__top">
+            <span class="stat-card__icon stat-card__icon--danger" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v6l4 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </span>
+                        <span class="stat-card__trend stat-card__trend--down">▼ 1.1%</span>
+                    </div>
+                    <span class="stat-card__value" data-count="32">0</span>
+                    <span class="stat-card__label">Open Incidents</span>
+                </article>
+
+                <article class="stat-card reveal">
+                    <div class="stat-card__top">
+            <span class="stat-card__icon stat-card__icon--warning" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M21 21l-4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </span>
+                        <span class="stat-card__trend stat-card__trend--up">▲ 2.6%</span>
+                    </div>
+                    <span class="stat-card__value" data-count="18">0</span>
+                    <span class="stat-card__label">Under Investigation</span>
+                </article>
+
+                <article class="stat-card reveal">
+                    <div class="stat-card__top">
+            <span class="stat-card__icon stat-card__icon--success" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none"><path d="M5 12l4.5 4.5L19 7" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+                        <span class="stat-card__trend stat-card__trend--up">▲ 7.8%</span>
+                    </div>
+                    <span class="stat-card__value" data-count="78">0</span>
+                    <span class="stat-card__label">Resolved Incidents</span>
+                </article>
+            </section>
+
+            <!-- QUICK ACTIONS -->
+            <section class="quick-actions reveal" aria-label="Quick actions">
+                <a href="report-incident.jsp" class="quick-action quick-action--primary">
+                    <span class="quick-action__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M12 3v18M3 12h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+                    <span>
+            <strong>Report New Incident</strong>
+            <small>Submit a new security incident</small>
+          </span>
+                </a>
+                <a href="#my-incidents" class="quick-action">
+                    <span class="quick-action__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M6 3h9l5 5v13a1 1 0 01-1 1H6a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span>
+                    <span>
+            <strong>View My Incidents</strong>
+            <small>Track incidents you reported</small>
+          </span>
+                </a>
+                <a href="#all-incidents" class="quick-action">
+                    <span class="quick-action__icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg></span>
+                    <span>
+            <strong>View All Incidents</strong>
+            <small>Organization-wide incident log</small>
+          </span>
+                </a>
+            </section>
+
+            <!-- SECURITY OVERVIEW -->
+            <section class="security-overview reveal" aria-label="Security overview">
+                <h3 class="section-heading">Security Overview</h3>
+                <div class="overview-grid">
+                    <div class="overview-card">
+                        <span class="overview-card__label">System Security Status</span>
+                        <span class="overview-card__value overview-card__value--success">
+              <span class="status-dot" aria-hidden="true"></span> Secure
+            </span>
+                    </div>
+                    <div class="overview-card">
+                        <span class="overview-card__label">Active Threats</span>
+                        <span class="overview-card__value overview-card__value--danger">2</span>
+                    </div>
+                    <div class="overview-card">
+                        <span class="overview-card__label">Incidents This Month</span>
+                        <span class="overview-card__value">24</span>
+                    </div>
+                    <div class="overview-card">
+                        <span class="overview-card__label">Average Response Time</span>
+                        <span class="overview-card__value">1h 42m</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- INCIDENTS TABLE + ACTIVITY -->
+            <div class="content-grid">
+
+                <section class="panel reveal" aria-label="Recent incidents">
+                    <div class="panel__header">
+                        <h3 class="section-heading">Recent Incidents</h3>
+                        <div class="table-filters" id="tableFilters">
+                            <button type="button" class="filter-chip is-active" data-filter="all">All</button>
+                            <button type="button" class="filter-chip" data-filter="open">Open</button>
+                            <button type="button" class="filter-chip" data-filter="investigating">Investigating</button>
+                            <button type="button" class="filter-chip" data-filter="resolved">Resolved</button>
+                        </div>
+                    </div>
+
+                    <div class="table-wrap">
+                        <table class="incident-table" id="incidentTable">
+                            <thead>
+                            <tr>
+                                <th scope="col">Incident ID</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Severity</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Reported Date</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody id="incidentTableBody">
+                            <!-- Populated by loadRecentIncidents() in dashboard.js -->
+                            </tbody>
+                        </table>
+                        <p class="table-empty" id="tableEmptyState" hidden>No incidents match your search.</p>
+                    </div>
+                </section>
+
+                <section class="panel panel--activity reveal" aria-label="Recent activity">
+                    <div class="panel__header">
+                        <h3 class="section-heading">Recent Activity</h3>
+                    </div>
+                    <ul class="activity-list" id="activityList">
+                        <!-- Populated by loadDashboardData() in dashboard.js -->
+                    </ul>
+                </section>
+
+            </div>
+
+        </main>
+    </div>
+</div>
+
+<!-- ============ FUN: SECURITY SQUAD MASCOTS (original characters, not licensed IP) ============ -->
+<button type="button" class="squad-fab" id="squadFab" aria-label="Meet the Security Squad" aria-expanded="false">
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="none"><path d="M20 3 L34 8.5" stroke="none"/><path d="M12 2l8 3.4v5.4c0 4.9-3.4 8.9-8 10.2-4.6-1.3-8-5.3-8-10.2V5.4L12 2z" fill="currentColor"/></svg>
+</button>
+
+<div class="squad-panel" id="squadPanel" aria-hidden="true">
+    <div class="squad-panel__header">
+        <h4>Meet the Security Squad</h4>
+        <button type="button" class="icon-btn" id="squadClose" aria-label="Close">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+        </button>
+    </div>
+    <p class="squad-panel__intro">Original mascots on standby — tap one to hear from them.</p>
+
+    <div class="squad-grid" id="squadGrid">
+        <button type="button" class="squad-card" data-hero="ironclad">
+      <span class="squad-card__avatar squad-card__avatar--ironclad" aria-hidden="true">
+        <svg viewBox="0 0 64 64" width="46" height="46" fill="none">
+          <circle cx="32" cy="32" r="30" fill="#7f1d1d"/>
+          <path d="M20 24c0-8 5-14 12-14s12 6 12 14v8c0 8-5 16-12 18-7-2-12-10-12-18v-8z" fill="#dc2626"/>
+          <rect x="24" y="26" width="16" height="8" rx="2" fill="#fbbf24"/>
+          <circle cx="28" cy="30" r="2" fill="#7f1d1d"/>
+          <circle cx="36" cy="30" r="2" fill="#7f1d1d"/>
+        </svg>
+      </span>
+            <span class="squad-card__name">Ironclad</span>
+        </button>
+
+        <button type="button" class="squad-card" data-hero="webwatch">
+      <span class="squad-card__avatar squad-card__avatar--webwatch" aria-hidden="true">
+        <svg viewBox="0 0 64 64" width="46" height="46" fill="none">
+          <circle cx="32" cy="32" r="30" fill="#7f1d1d"/>
+          <path d="M32 4v56M4 32h56M12 12l40 40M52 12L12 52" stroke="#f8fafc" stroke-width="1.4" opacity="0.6"/>
+          <circle cx="32" cy="32" r="16" fill="#dc2626"/>
+          <path d="M24 28c2-2 5-3 8-3s6 1 8 3M24 36c2 2 5 3 8 3s6-1 8-3" stroke="#0f172a" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </span>
+            <span class="squad-card__name">WebWatch</span>
+        </button>
+
+        <button type="button" class="squad-card" data-hero="mystiguard">
+      <span class="squad-card__avatar squad-card__avatar--mystiguard" aria-hidden="true">
+        <svg viewBox="0 0 64 64" width="46" height="46" fill="none">
+          <circle cx="32" cy="32" r="30" fill="#1e1b4b"/>
+          <path d="M32 10c11 4 18 6 18 6v14c0 12-8 20-18 24-10-4-18-12-18-24V16s7-2 18-6z" fill="#4c1d95" opacity="0.9"/>
+          <circle cx="32" cy="30" r="8" fill="none" stroke="#facc15" stroke-width="1.4"/>
+          <circle cx="32" cy="30" r="3.5" fill="#facc15"/>
+        </svg>
+      </span>
+            <span class="squad-card__name">MystiGuard</span>
+        </button>
+    </div>
+
+    <p class="squad-panel__quote" id="squadQuote" role="status">Pick a teammate to get started.</p>
+</div>
+
+<!-- Toast for logout confirmation etc. -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="dashboard.js"></script>
+
+</body>
+</html>
