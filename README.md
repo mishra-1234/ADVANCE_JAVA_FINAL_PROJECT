@@ -4,13 +4,14 @@ A full-stack web application featuring an **Angular** frontend and an **Advanced
 
 ---
 
-## 🚀 Features
+## 🚀 Key Modules & Features
 
-- **User Authentication:** Secure user signup and login workflows.
-- **Dashboard:** Interactive dashboard view for authenticated users.
-- **Full-Stack Architecture:** Decoupled Angular client interfacing with Java backend endpoints.
-- **Tomcat Integration:** Pre-configured deployment support via Smart Tomcat.
-
+- **Citizen Complaint Registration:** User-friendly forms to file complaints regarding financial fraud, identity theft, cyberstalking, phishing, and online harassment.
+- **Evidence Management:** Secure file upload facility allowing citizens to submit logs, screenshots, emails, and transaction receipts.
+- **Role-Based Access Control (RBAC):** Distinct dashboards for Citizens, Investigating Officers (IO), and Super Admins / Supervisors.
+- **Case Tracking & Status Updates:** Real-time updates and notifications for filed complaints via unique case reference IDs.
+- **Investigation Workflow:** Allows officers to assign cases, update investigation remarks, attach forensic notes, and generate charge sheets/reports.
+- **Analytics & Crime Trends:** Visual reporting dashboard highlighting prevalent cybercrime categories, hotspot zones, and resolution rates.
 ---
 
 ## 🛠️ Tech Stack
