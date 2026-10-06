@@ -178,3 +178,16 @@ function showFormMessage(el, message, type) {
     if (!message) return;
     el.classList.add(type === 'success' ? 'is-success' : 'is-error', 'is-visible');
 }
+const ADMIN_PANEL_URL = 'adminlogin.jsp'; // change to your admin page / route
+
+function openAdminPanel() {
+    const btn = document.getElementById('adminPanelBtn');
+    if (btn) {
+        btn.classList.add('is-opening');
+        const label = btn.querySelector('span:nth-child(2)');
+        if (label) label.textContent = 'Opening...';
+    }
+    setTimeout(() => { window.location.href = ADMIN_PANEL_URL; }, 600);
+}
+
+

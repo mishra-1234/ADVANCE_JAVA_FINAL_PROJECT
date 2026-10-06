@@ -767,3 +767,6 @@ input { font: inherit; }
     .overview-grid { grid-template-columns: 1fr; }
     .greeting { flex-direction: column; align-items: flex-start; }
 }
+
+/* Added: sidebar menu scrolls if there are more items than the screen height */
+.sidebar__nav { overflow-y: auto; min-height: 0; scrollbar-width: thin; scrollbar-color: rgba(148,163,184,.3) transparent; }

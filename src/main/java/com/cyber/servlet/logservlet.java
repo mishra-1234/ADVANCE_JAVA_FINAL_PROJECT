@@ -1,4 +1,4 @@
-package com.cyber.controller;
+package com.cyber.servlet;
 
 
 import com.cyber.dao.UserDAO;

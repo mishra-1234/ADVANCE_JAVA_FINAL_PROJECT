@@ -1,11 +1,3 @@
-/* ==========================================================================
-   CyberShield — dashboard.js
-   Vanilla JS only. Uses placeholder/sample data for now.
-   Functions are clearly separated so they can later be rewired to call
-   the Java Servlets (e.g. via fetch('incidents'), fetch('notifications'))
-   instead of returning sample data.
-   ========================================================================== */
-
 document.addEventListener('DOMContentLoaded', () => {
     loadUserInfo();
     loadDashboardData();
@@ -22,16 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initStatCounters();
 });
 
-/* --------------------------------------------------------------------------
-   SESSION / USER INFO
-   --------------------------------------------------------------------------
-   The Servlet session currently stores: user, userId, userName, role.
-   For now this reads sample data. Later, replace SAMPLE_USER with a call
-   such as: fetch('user-info').then(r => r.json()).then(renderUser)
-   or have the JSP/Servlet inject these values directly into the page
-   (e.g. via a hidden <meta> tag or a small inline JSON block) so this
-   function can read them instead of using SAMPLE_USER.
-   -------------------------------------------------------------------------- */
+
 
 
 async function loadUserInfo() {
