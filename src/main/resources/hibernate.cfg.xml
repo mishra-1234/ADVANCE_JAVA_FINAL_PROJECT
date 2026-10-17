@@ -44,6 +44,8 @@
         </property>
 
         <mapping class="com.cyber.entity.Admin"/>
+        <mapping class="com.cyber.entity.Admin"/>
+        <mapping class="com.cyber.entity.UrlScan"/>
 
     </session-factory>
 
