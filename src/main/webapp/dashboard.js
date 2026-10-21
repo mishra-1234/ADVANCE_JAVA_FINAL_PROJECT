@@ -18,9 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 async function loadUserInfo() {
-
     try {
-
         const response = await fetch('user-session');
 
         if (!response.ok) {
@@ -40,37 +38,18 @@ async function loadUserInfo() {
         const userName = data.userName;
         const role = data.role;
 
-        const nameEl =
-            document.getElementById('userNameDisplay');
+        const nameEl = document.getElementById('userNameDisplay');
+        const roleEl = document.getElementById('userRoleDisplay');
+        const avatarEl = document.getElementById('userAvatar');
+        const greetingEl = document.getElementById('greetingName');
 
-        const roleEl =
-            document.getElementById('userRoleDisplay');
-
-        const avatarEl =
-            document.getElementById('userAvatar');
-
-        const greetingEl =
-            document.getElementById('greetingName');
-
-        if (nameEl)
-            nameEl.textContent = userName;
-
-        if (roleEl)
-            roleEl.textContent = role;
-
-        if (avatarEl)
-            avatarEl.textContent = getInitials(userName);
-
-        if (greetingEl)
-            greetingEl.textContent =
-                userName.split(' ')[0];
+        if (nameEl) nameEl.textContent = userName;
+        if (roleEl) roleEl.textContent = role;
+        if (avatarEl) avatarEl.textContent = getInitials(userName);
+        if (greetingEl) greetingEl.textContent = userName.split(' ')[0];
 
     } catch (error) {
-
-        console.error(
-            "Failed to load user session:",
-            error
-        );
+        console.error("Failed to load user session:", error);
     }
 }
 
@@ -86,9 +65,6 @@ function getInitials(name) {
 
 /* --------------------------------------------------------------------------
    DASHBOARD DATA (notifications + activity feed)
-   --------------------------------------------------------------------------
-   TODO (backend): replace with fetch('dashboard-summary') and
-   fetch('notifications') calls to the Servlet layer.
    -------------------------------------------------------------------------- */
 const SAMPLE_NOTIFICATIONS = [
     { type: 'danger', text: 'New Critical incident reported: Suspicious Login', time: '10 minutes ago' },
@@ -157,50 +133,76 @@ function renderActivity(activity) {
 }
 
 /* --------------------------------------------------------------------------
-   RECENT INCIDENTS TABLE
-   --------------------------------------------------------------------------
-   TODO (backend): replace SAMPLE_INCIDENTS with
-   fetch('incidents?scope=recent').then(r => r.json())
+   RECENT INCIDENTS TABLE (Fetched live from MySQL Database via Servlet)
    -------------------------------------------------------------------------- */
 const SAMPLE_INCIDENTS = [
     { id: 'INC-1001', title: 'Phishing Email', category: 'Phishing', severity: 'high', status: 'investigating', date: '28 Aug 2026' },
     { id: 'INC-1002', title: 'Suspicious Login', category: 'Unauthorized Access', severity: 'critical', status: 'open', date: '27 Aug 2026' },
-    { id: 'INC-1003', title: 'Malware Detected', category: 'Malware', severity: 'medium', status: 'resolved', date: '26 Aug 2026' },
-    { id: 'INC-1004', title: 'Ransomware Alert', category: 'Ransomware', severity: 'critical', status: 'open', date: '25 Aug 2026' },
-    { id: 'INC-1005', title: 'Unusual File Access', category: 'Insider Threat', severity: 'low', status: 'closed', date: '24 Aug 2026' },
-    { id: 'INC-1006', title: 'Data Exfiltration Attempt', category: 'Data Breach', severity: 'critical', status: 'investigating', date: '23 Aug 2026' },
 ];
 
-const SEVERITY_LABELS = { critical: 'Critical', high: 'High', medium: 'Medium', low: 'Low' };
-const STATUS_LABELS = { open: 'Open', investigating: 'Under Investigation', resolved: 'Resolved', closed: 'Closed' };
+const SEVERITY_LABELS = { critical: 'Critical', high: 'High', medium: 'Medium', low: 'Low', CRITICAL: 'Critical', HIGH: 'High', MEDIUM: 'Medium', LOW: 'Low' };
+const STATUS_LABELS = { open: 'Open', investigating: 'Under Investigation', resolved: 'Resolved', closed: 'Closed', OPEN: 'Open' };
 
-function loadRecentIncidents() {
+async function loadRecentIncidents() {
     try {
-        renderIncidentTable(SAMPLE_INCIDENTS);
+        const response = await fetch('get-incidents');
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch incidents from database');
+        }
+
+        const incidents = await response.json();
+
+        if (incidents && incidents.length > 0) {
+            renderIncidentTable(incidents);
+        } else {
+            console.log("No incidents found in database.");
+            renderIncidentTable([]);
+        }
+
     } catch (error) {
-        console.error('CyberShield: failed to load recent incidents.', error);
+        console.error('CyberShield: failed to load recent incidents from database. Falling back to sample data.', error);
+        renderIncidentTable(SAMPLE_INCIDENTS);
     }
 }
 
 function renderIncidentTable(incidents) {
     const tbody = document.getElementById('incidentTableBody');
+    const emptyState = document.getElementById('tableEmptyState');
     if (!tbody) return;
 
     tbody.innerHTML = '';
+
+    if (!incidents || incidents.length === 0) {
+        if (emptyState) emptyState.hidden = false;
+        return;
+    }
+
+    if (emptyState) emptyState.hidden = true;
+
     incidents.forEach((incident) => {
         const tr = document.createElement('tr');
-        tr.dataset.status = incident.status;
-        tr.dataset.search = `${incident.id} ${incident.title} ${incident.category}`.toLowerCase();
+
+        // Handle database keys (mapping IDs and properties properly)
+        const incId = incident.id ? `INC-10${incident.id}` : 'INC-1000';
+        const title = incident.title || 'Untitled Incident';
+        const category = incident.category || 'General';
+        const severity = (incident.severity || 'low').toLowerCase();
+        const status = (incident.status || 'open').toLowerCase();
+        const date = incident.date || 'Today';
+
+        tr.dataset.status = status;
+        tr.dataset.search = `${incId} ${title} ${category}`.toLowerCase();
 
         tr.innerHTML = `
-      <td class="id-cell">${escapeHtml(incident.id)}</td>
-      <td>${escapeHtml(incident.title)}</td>
-      <td>${escapeHtml(incident.category)}</td>
-      <td><span class="badge badge--${incident.severity}">${SEVERITY_LABELS[incident.severity]}</span></td>
-      <td><span class="badge badge--${incident.status}">${STATUS_LABELS[incident.status]}</span></td>
-      <td>${escapeHtml(incident.date)}</td>
+      <td class="id-cell">${escapeHtml(incId)}</td>
+      <td>${escapeHtml(title)}</td>
+      <td>${escapeHtml(category)}</td>
+      <td><span class="badge badge--${severity}">${SEVERITY_LABELS[severity] || severity}</span></td>
+      <td><span class="badge badge--${status}">${STATUS_LABELS[status] || status}</span></td>
+      <td>${escapeHtml(date)}</td>
       <td>
-        <button type="button" class="row-action" aria-label="View ${escapeHtml(incident.id)}">
+        <button type="button" class="row-action" aria-label="View ${escapeHtml(incId)}">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.7"/></svg>
         </button>
       </td>
@@ -210,6 +212,7 @@ function renderIncidentTable(incidents) {
 }
 
 function escapeHtml(value) {
+    if (!value) return '';
     const div = document.createElement('div');
     div.textContent = value;
     return div.innerHTML;
@@ -256,13 +259,10 @@ function initSidebarNavHighlight() {
             navItems.forEach((el) => el.classList.remove('is-active'));
             item.classList.add('is-active');
 
-            // Close mobile sidebar after a navigation choice
             if (sidebar && sidebar.classList.contains('is-open')) {
                 sidebar.classList.remove('is-open');
                 if (overlay) overlay.classList.remove('is-visible');
             }
-            // TODO (backend/routing): load the relevant page/section here,
-            // e.g. showPage(item.dataset.page) once multiple views exist.
         });
     });
 }
@@ -274,7 +274,6 @@ function initDropdowns() {
     setupDropdown('notifBtn', 'notifPanel');
     setupDropdown('profileBtn', 'profilePanel');
 
-    // Close any open dropdown when clicking outside of it
     document.addEventListener('click', (event) => {
         document.querySelectorAll('.dropdown').forEach((dropdown) => {
             if (!dropdown.contains(event.target)) {
@@ -296,7 +295,6 @@ function setupDropdown(triggerId, panelId) {
         event.stopPropagation();
         const willOpen = !panel.classList.contains('is-open');
 
-        // Close all other dropdowns first
         document.querySelectorAll('.dropdown__panel.is-open').forEach((p) => p.classList.remove('is-open'));
         document.querySelectorAll('[aria-haspopup]').forEach((t) => t.setAttribute('aria-expanded', 'false'));
 
@@ -354,7 +352,7 @@ function applyTableFilters() {
 }
 
 /* --------------------------------------------------------------------------
-   Logout — with confirmation, then redirect to the logout Servlet
+   Logout
    -------------------------------------------------------------------------- */
 function initLogout() {
     const logoutButtons = [
@@ -373,23 +371,17 @@ function initLogout() {
 function logoutUser() {
     try {
         showToast('Logging out...');
-        // TODO (backend): the "logout" Servlet should invalidate the session
-        // (session.invalidate()) and then redirect to login.html.
-        // Since the Servlet is not wired up in this frontend-only preview,
-        // we navigate to it directly; the Servlet itself will handle the
-        // redirect to login.html once implemented.
         setTimeout(() => {
             window.location.href = 'logout';
         }, 600);
     } catch (error) {
         console.error('CyberShield: logout failed unexpectedly.', error);
-        // Fallback: still send the user to the login page
         window.location.href = 'login.html';
     }
 }
 
 /* --------------------------------------------------------------------------
-   Fun: Security Squad mascot panel (original characters)
+   Security Squad mascot panel
    -------------------------------------------------------------------------- */
 const SQUAD_QUOTES = {
     ironclad: '"Suit up. Every incident report makes the whole network stronger." — Ironclad',
@@ -436,7 +428,7 @@ function initSquadPanel() {
 }
 
 /* --------------------------------------------------------------------------
-   Scroll reveal (IntersectionObserver)
+   Scroll reveal
    -------------------------------------------------------------------------- */
 function initScrollReveal() {
     const revealEls = document.querySelectorAll('.reveal');

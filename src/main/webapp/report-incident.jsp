@@ -1,10 +1,9 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-
-
+    <title>CyberShield - Report Incident</title>
     <meta name="description" content="Report a cybersecurity incident to the CyberShield security team.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,7 +11,6 @@
     <link rel="stylesheet" href="report-incident.css">
 </head>
 <body>
-
 
 <header class="topbar">
     <div class="topbar__left">
@@ -28,6 +26,7 @@
           </defs>
         </svg>
       </span>
+
             <span class="brand__text">Cyber<strong>Shield</strong></span>
         </a>
         <span class="topbar__divider" aria-hidden="true"></span>
@@ -40,12 +39,19 @@
             <span class="icon-btn__dot">2</span>
         </button>
 
+        <!-- Dynamic User Profile Display from Session -->
         <div class="profile-chip">
-            <span class="avatar" aria-hidden="true">AS</span>
+            <span class="avatar" aria-hidden="true">
+                <%= session.getAttribute("userName") != null ? session.getAttribute("userName").toString().substring(0, 1).toUpperCase() : "U" %>
+            </span>
             <span class="profile-chip__text">
-        <span class="profile-chip__name">Aditya Sharma</span>
-        <span class="profile-chip__role">Security Analyst</span>
-      </span>
+                <span class="profile-chip__name">
+                    <%= session.getAttribute("userName") != null ? session.getAttribute("userName") : "Guest User" %>
+                </span>
+                <span class="profile-chip__role">
+                    <%= session.getAttribute("role") != null ? session.getAttribute("role") : "Security Analyst" %>
+                </span>
+            </span>
         </div>
 
         <a href="dashboard.html" class="btn btn--outline btn--sm" id="backToDashboardBtn">
@@ -59,7 +65,7 @@
 <main class="page">
     <div class="page__inner">
 
-        <!-- Web/network motif backdrop (original pattern, not licensed IP) -->
+        <!-- Web/network motif backdrop -->
         <svg class="web-backdrop" viewBox="0 0 900 300" aria-hidden="true" focusable="false">
             <g class="web-lines" stroke="#3b82f6" stroke-width="1" fill="none">
                 <path d="M450 10 L450 290"/>
@@ -82,15 +88,19 @@
 
             <!-- ============ FORM CARD ============ -->
             <section class="card form-card reveal" aria-label="Incident report form">
-                <form id="incidentForm" novalidate>
+                <!-- Form action points to IncidentServlet and passes logged-in user name hiddenly -->
+                <form id="incidentForm" action="/AD-PROJECT/submit-incident" method="post" novalidate>
+
+                    <!-- Hidden Input to store logged-in user name into database -->
+                    <input type="hidden" name="reportedBy" value="<%= session.getAttribute("userName") != null ? session.getAttribute("userName") : "Guest User" %>">
 
                     <!-- Incident Title -->
                     <div class="form-field form-field--full" id="titleField">
                         <label for="incidentTitle">Incident Title <span class="required" aria-hidden="true">*</span></label>
                         <div class="input-wrap">
-              <span class="input-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M4 5h16v11H8l-4 4V5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-              </span>
+                            <span class="input-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M4 5h16v11H8l-4 4V5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                            </span>
                             <input type="text" id="incidentTitle" name="incidentTitle" placeholder="Enter incident title" required aria-required="true">
                         </div>
                         <p class="field-error" id="incidentTitleError" role="alert"></p>
@@ -101,9 +111,9 @@
                         <div class="form-field" id="categoryField">
                             <label for="incidentCategory">Incident Category <span class="required" aria-hidden="true">*</span></label>
                             <div class="input-wrap input-wrap--select">
-                <span class="input-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><rect x="3.5" y="4" width="17" height="16" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 9.5h17" stroke="currentColor" stroke-width="1.6"/></svg>
-                </span>
+                                <span class="input-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><rect x="3.5" y="4" width="17" height="16" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 9.5h17" stroke="currentColor" stroke-width="1.6"/></svg>
+                                </span>
                                 <select id="incidentCategory" name="incidentCategory" required aria-required="true">
                                     <option value="" disabled selected>Select category</option>
                                     <option value="phishing">Phishing</option>
@@ -124,9 +134,9 @@
                         <div class="form-field" id="severityField">
                             <label for="incidentSeverity">Severity <span class="required" aria-hidden="true">*</span></label>
                             <div class="input-wrap input-wrap--select">
-                <span class="input-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M12 3l9 16H3l9-16z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 10v4M12 17h.01" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-                </span>
+                                <span class="input-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M12 3l9 16H3l9-16z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 10v4M12 17h.01" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                                </span>
                                 <select id="incidentSeverity" name="incidentSeverity" required aria-required="true">
                                     <option value="" disabled selected>Select severity</option>
                                     <option value="low">Low</option>
@@ -153,9 +163,9 @@
                         <div class="form-field" id="dateField">
                             <label for="incidentDate">Incident Date <span class="required" aria-hidden="true">*</span></label>
                             <div class="input-wrap">
-                <span class="input-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><rect x="3.5" y="5" width="17" height="15" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M8 3v4M16 3v4M3.5 10h17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-                </span>
+                                <span class="input-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><rect x="3.5" y="5" width="17" height="15" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M8 3v4M16 3v4M3.5 10h17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                                </span>
                                 <input type="date" id="incidentDate" name="incidentDate" required aria-required="true">
                             </div>
                             <p class="field-error" id="incidentDateError" role="alert"></p>
@@ -165,9 +175,9 @@
                         <div class="form-field" id="timeField">
                             <label for="incidentTime">Incident Time <span class="required" aria-hidden="true">*</span></label>
                             <div class="input-wrap">
-                <span class="input-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.6"/><path d="M12 7.5V12l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </span>
+                                <span class="input-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.6"/><path d="M12 7.5V12l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                </span>
                                 <input type="time" id="incidentTime" name="incidentTime" required aria-required="true">
                             </div>
                             <p class="field-error" id="incidentTimeError" role="alert"></p>
@@ -179,9 +189,9 @@
                         <div class="form-field" id="assetField">
                             <label for="affectedAsset">Affected System / Asset <span class="required" aria-hidden="true">*</span></label>
                             <div class="input-wrap">
-                <span class="input-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><rect x="3" y="4" width="18" height="12" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M8 20h8M12 16v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-                </span>
+                                <span class="input-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><rect x="3" y="4" width="18" height="12" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M8 20h8M12 16v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                                </span>
                                 <input type="text" id="affectedAsset" name="affectedAsset" placeholder="e.g. Employee Laptop, Web Server, Database" required aria-required="true">
                             </div>
                             <p class="field-error" id="affectedAssetError" role="alert"></p>
@@ -191,9 +201,9 @@
                         <div class="form-field" id="locationField">
                             <label for="incidentLocation">Location <span class="required" aria-hidden="true">*</span></label>
                             <div class="input-wrap">
-                <span class="input-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M12 21s7-6.6 7-11.5A7 7 0 105 9.5C5 14.4 12 21 12 21z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="2.4" stroke="currentColor" stroke-width="1.6"/></svg>
-                </span>
+                                <span class="input-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M12 21s7-6.6 7-11.5A7 7 0 105 9.5C5 14.4 12 21 12 21z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="2.4" stroke="currentColor" stroke-width="1.6"/></svg>
+                                </span>
                                 <input type="text" id="incidentLocation" name="incidentLocation" placeholder="Enter location" required aria-required="true">
                             </div>
                             <p class="field-error" id="incidentLocationError" role="alert"></p>
@@ -226,9 +236,9 @@
                     <div class="form-field form-field--full" id="contactField">
                         <label for="contactInfo">Contact Information <span class="required" aria-hidden="true">*</span></label>
                         <div class="input-wrap">
-              <span class="input-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M4 6h16v12H4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 7l8 6 8-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </span>
+                            <span class="input-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M4 6h16v12H4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 7l8 6 8-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </span>
                             <input type="text" id="contactInfo" name="contactInfo" placeholder="Enter contact information" required aria-required="true">
                         </div>
                         <p class="field-error" id="contactInfoError" role="alert"></p>
@@ -237,9 +247,9 @@
                     <!-- Actions -->
                     <div class="form-actions">
                         <button type="submit" class="btn btn--primary btn--block" id="submitBtn">
-              <span class="btn__icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M4 12l6 6L20 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </span>
+                            <span class="btn__icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M4 12l6 6L20 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </span>
                             <span class="btn__label">Submit Incident</span>
                             <span class="spinner" aria-hidden="true"></span>
                         </button>
@@ -258,9 +268,9 @@
 
                 <div class="card tip-card reveal">
                     <h3 class="tip-card__title">
-            <span class="tip-card__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M12 2l8 3.4v5.4c0 4.9-3.4 8.9-8 10.2-4.6-1.3-8-5.3-8-10.2V5.4L12 2z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-            </span>
+                        <span class="tip-card__icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M12 2l8 3.4v5.4c0 4.9-3.4 8.9-8 10.2-4.6-1.3-8-5.3-8-10.2V5.4L12 2z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+                        </span>
                         Before Submitting
                     </h3>
                     <ul class="tip-list">
@@ -271,16 +281,16 @@
                     </ul>
                 </div>
 
-                <!-- Original mascot cameo: WebWatch, not licensed IP -->
+                <!-- Mascot cameo -->
                 <div class="card mascot-card reveal">
-          <span class="mascot-card__avatar" aria-hidden="true">
-            <svg viewBox="0 0 64 64" width="52" height="52" fill="none">
-              <circle cx="32" cy="32" r="30" fill="#1e293b"/>
-              <path d="M32 4v56M4 32h56M12 12l40 40M52 12L12 52" stroke="#3b82f6" stroke-width="1.2" opacity="0.55"/>
-              <circle cx="32" cy="32" r="15" fill="#2563eb"/>
-              <path d="M24 28c2-2 5-3 8-3s6 1 8 3M24 36c2 2 5 3 8 3s6-1 8-3" stroke="#0f172a" stroke-width="1.6" stroke-linecap="round"/>
-            </svg>
-          </span>
+                    <span class="mascot-card__avatar" aria-hidden="true">
+                        <svg viewBox="0 0 64 64" width="52" height="52" fill="none">
+                            <circle cx="32" cy="32" r="30" fill="#1e293b"/>
+                            <path d="M32 4v56M4 32h56M12 12l40 40M52 12L12 52" stroke="#3b82f6" stroke-width="1.2" opacity="0.55"/>
+                            <circle cx="32" cy="32" r="15" fill="#2563eb"/>
+                            <path d="M24 28c2-2 5-3 8-3s6 1 8 3M24 36c2 2 5 3 8 3s6-1 8-3" stroke="#0f172a" stroke-width="1.6" stroke-linecap="round"/>
+                        </svg>
+                    </span>
                     <div>
                         <p class="mascot-card__name">WebWatch says:</p>
                         <p class="mascot-card__quote" id="mascotQuote">"The clearer your report, the faster we can trace the thread."</p>
@@ -295,11 +305,11 @@
 <!-- Success overlay -->
 <div class="success-overlay" id="successOverlay" role="alertdialog" aria-modal="true" aria-labelledby="successTitle" aria-hidden="true">
     <div class="success-card">
-    <span class="success-card__icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24" width="30" height="30" fill="none"><path d="M4 12l6 6L20 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </span>
+        <span class="success-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="30" height="30" fill="none"><path d="M4 12l6 6L20 6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
         <h3 id="successTitle">Incident Reported Successfully</h3>
-        <p>Your report has been submitted to the security team. They'll begin triage shortly. Backend submission will be connected soon.</p>
+        <p>Your report has been submitted to the security team. They'll begin triage shortly.</p>
         <div class="success-card__actions">
             <button type="button" class="btn btn--outline" id="reportAnotherBtn">Report Another</button>
             <a href="dashboard.html" class="btn btn--primary">Return to Dashboard</a>
@@ -310,9 +320,6 @@
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="report-incident.js"></script>
-
-
-
 
 </body>
 </html>

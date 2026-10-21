@@ -46,6 +46,7 @@
         <mapping class="com.cyber.entity.Admin"/>
         <mapping class="com.cyber.entity.Admin"/>
         <mapping class="com.cyber.entity.UrlScan"/>
+        <mapping class="com.cyber.entity.Incident"/>
 
     </session-factory>
 

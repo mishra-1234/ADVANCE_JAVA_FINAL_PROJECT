@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Title</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="SecurityTips.css">
+</head>
+<body>
+<div class="bubbles" id="bubbles" aria-hidden="true"></div>
+
+<header class="nav">
+    <a class="logo" href="#top">🛡️ CyberShield</a>
+    <nav>
+        <a href="#tips">Tips</a>
+        <a href="#password">Password lab</a>
+        <a href="#threats">Villains</a>
+        <a href="#checklist">Checklist</a>
+    </nav>
+</header>
+
+<main id="top">
+    <section class="hero">
+        <div class="hero-text">
+            <h1>Meet Shieldy.<br>Your online bodyguard.</h1>
+            <p>Hackers, scammers and sneaky bugs are everywhere. Learn simple habits that keep your accounts, money and photos safe.</p>
+            <div class="hero-btns">
+                <a class="btn" href="#tips">Learn the tips</a>
+                <a class="btn ghost" href="#password">Test a password</a>
+            </div>
+            <div class="stats">
+                <div><b data-count="81">0</b>% of breaches involve weak passwords</div>
+                <div><b data-count="91">0</b>% of attacks start with an email</div>
+                <div><b data-count="99">0</b>% blocked by 2-step login</div>
+            </div>
+        </div>
+
+        <div class="mascot-wrap" id="mascotWrap">
+            <span class="float f1">🔒</span><span class="float f2">⭐</span><span class="float f3">🔑</span><span class="float f4">✨</span>
+            <svg class="mascot" viewBox="0 0 240 280" role="img" aria-label="Cartoon shield mascot">
+                <ellipse cx="120" cy="266" rx="62" ry="9" class="shadow"/>
+                <path class="body" d="M120 8 L216 40 V130 C216 196 172 242 120 262 C68 242 24 196 24 130 V40 Z"/>
+                <path class="shine" d="M120 28 L196 52 V130 C196 184 160 224 120 242 Z"/>
+                <path class="shine2" d="M44 60 C44 60 48 120 60 150" />
+                <g class="eyes">
+                    <ellipse cx="88" cy="118" rx="22" ry="26" fill="#fff"/>
+                    <ellipse cx="152" cy="118" rx="22" ry="26" fill="#fff"/>
+                    <circle id="pupilL" cx="88" cy="120" r="11" fill="#1d1642"/>
+                    <circle id="pupilR" cx="152" cy="120" r="11" fill="#1d1642"/>
+                    <circle cx="92" cy="114" r="3.5" fill="#fff"/><circle cx="156" cy="114" r="3.5" fill="#fff"/>
+                </g>
+                <rect class="lid" x="64" y="90" width="48" height="56" rx="24"/>
+                <rect class="lid" x="128" y="90" width="48" height="56" rx="24"/>
+                <ellipse cx="62" cy="158" rx="12" ry="7" fill="#ff8fab" opacity=".7"/>
+                <ellipse cx="178" cy="158" rx="12" ry="7" fill="#ff8fab" opacity=".7"/>
+                <path d="M96 170 Q120 198 144 170 Q120 182 96 170Z" fill="#1d1642"/>
+                <path d="M108 180 Q120 190 132 180 Q120 186 108 180Z" fill="#ff8fab"/>
+                <path d="M112 215 l8 8 l16 -18" stroke="#fff" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity=".9"/>
+            </svg>
+        </div>
+    </section>
+
+    <section id="tips" class="section">
+        <h2>Security tips that actually work</h2>
+        <p class="sub">Tap a card to flip it and see how to do it.</p>
+        <div class="filters" id="filters">
+            <button class="chip active" data-f="all">All</button>
+            <button class="chip" data-f="accounts">Accounts</button>
+            <button class="chip" data-f="phone">Phone &amp; apps</button>
+            <button class="chip" data-f="scams">Scams</button>
+            <button class="chip" data-f="network">Wi-Fi &amp; devices</button>
+        </div>
+        <div class="grid" id="tipGrid"></div>
+    </section>
+
+    <section id="password" class="section lab">
+        <h2>Password lab 🧪</h2>
+        <p class="sub">Type a password to see how long a hacker would need. Nothing leaves your browser.</p>
+        <div class="lab-box">
+            <div class="input-row">
+                <input id="pw" type="password" placeholder="Try: Purple-Elephant-Dances-7!" autocomplete="off" aria-label="Password to test">
+                <button class="btn small" id="toggle" type="button">Show</button>
+            </div>
+            <div class="meter"><span id="bar"></span></div>
+            <div class="result"><span id="face">😴</span>
+                <div><b id="label">Waiting for a password</b><p id="time">Start typing…</p></div>
+            </div>
+            <ul class="rules" id="rules">
+                <li data-r="len">12+ characters</li>
+                <li data-r="up">Uppercase letter</li>
+                <li data-r="low">Lowercase letter</li>
+                <li data-r="num">A number</li>
+                <li data-r="sym">A symbol</li>
+            </ul>
+            <button class="btn ghost small" id="gen" type="button">🎲 Make me a strong one</button>
+        </div>
+    </section>
+
+    <section id="threats" class="section">
+        <h2>Meet the villains</h2>
+        <p class="sub">Know them, and they lose their power.</p>
+        <div class="villains" id="villains"></div>
+    </section>
+
+    <section id="checklist" class="section check">
+        <h2>Your shield score</h2>
+        <p class="sub">Tick what you already do. Be honest, Shieldy won't tell.</p>
+        <div class="check-box">
+            <div class="ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" class="track"/><circle cx="60" cy="60" r="52" class="fill" id="ringFill"/></svg><span id="score">0%</span></div>
+            <div class="items" id="items"></div>
+        </div>
+        <p class="msg" id="scoreMsg">Tick a few boxes to begin.</p>
+    </section>
+</main>
+
+<footer>
+    <p>🛡️ CyberShield · Stay curious, stay careful, stay safe.</p>
+</footer>
+<div class="toast" id="toast"></div>
+<script src="SecurityTips.js"></script>
+</body>
+</html>

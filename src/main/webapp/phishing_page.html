@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="phishing_page.css">
+</head>
+<body>
+<div class="bubbles" id="bubbles" aria-hidden="true"></div>
+
+<header class="nav">
+    <a class="logo" href="index.html">🛡️ CyberShield</a>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="#scanner">Scanner</a>
+        <a href="#history">History</a>
+    </nav>
+</header>
+
+<main>
+    <section class="hero" id="scanner">
+        <span class="float f1">🎣</span><span class="float f2">🔍</span><span class="float f3">🔗</span><span class="float f4">⚠️</span>
+        <h1>Is that link safe?<br>Let Shieldy check it.</h1>
+        <p>Paste any website link. Shieldy inspects the address for fake domains, tricky patterns and scam tricks. Nothing is opened or sent anywhere.</p>
+
+        <form class="scan-card" id="scanForm" autocomplete="off">
+            <label for="urlInput" class="sr">Website link to scan</label>
+            <div class="field">
+                <span class="field-ico">🔗</span>
+                <input id="urlInput" type="text" inputmode="url" placeholder="Paste a link, e.g. http://paypal-secure-login.tk/verify" spellcheck="false">
+                <button class="btn" id="scanBtn" type="submit">Scan link</button>
+            </div>
+            <p class="err" id="err" role="alert"></p>
+            <div class="samples">
+                <span>Try an example:</span>
+                <button type="button" class="chip" data-url="https://github.com">✅ github.com</button>
+                <button type="button" class="chip" data-url="http://paypal-secure-login.tk/verify/account">🎣 fake PayPal</button>
+                <button type="button" class="chip" data-url="https://faceb00k-login.com/account/confirm">🕵️ look-alike</button>
+                <button type="button" class="chip" data-url="http://192.168.4.7/bank/login.php">🧨 IP address</button>
+            </div>
+        </form>
+
+        <div class="scanning" id="scanning" aria-live="polite">
+            <div class="track"><span class="mag">🔍</span></div>
+            <p id="stepText">Reading the link…</p>
+        </div>
+    </section>
+
+    <section class="result" id="result" hidden>
+        <div class="alert" id="alertBox" role="alert"></div>
+
+        <div class="res-grid">
+            <div class="panel gauge-panel">
+                <svg class="mascot" id="mascot" viewBox="0 0 240 280" role="img" aria-label="Shieldy reacting to the result">
+                    <ellipse cx="120" cy="268" rx="60" ry="8" class="shadow"/>
+                    <path class="body" d="M120 8 L216 40 V130 C216 196 172 242 120 262 C68 242 24 196 24 130 V40 Z"/>
+                    <path class="shine" d="M120 28 L196 52 V130 C196 184 160 224 120 242 Z"/>
+                    <ellipse cx="88" cy="118" rx="22" ry="26" fill="#fff"/><ellipse cx="152" cy="118" rx="22" ry="26" fill="#fff"/>
+                    <circle class="pupil" cx="88" cy="121" r="11"/><circle class="pupil" cx="152" cy="121" r="11"/>
+                    <circle cx="92" cy="115" r="3.5" fill="#fff"/><circle cx="156" cy="115" r="3.5" fill="#fff"/>
+                    <path class="brow b-bad" d="M62 82 L108 98 M178 82 L132 98"/>
+                    <path class="brow b-warn" d="M66 90 Q88 80 110 92 M130 92 Q152 80 174 90"/>
+                    <ellipse cx="62" cy="158" rx="12" ry="7" fill="#ff8fab" opacity=".7"/><ellipse cx="178" cy="158" rx="12" ry="7" fill="#ff8fab" opacity=".7"/>
+                    <path class="mouth m-safe" d="M96 172 Q120 200 144 172 Q120 184 96 172Z"/>
+                    <path class="mouth m-warn" d="M100 186 Q110 178 120 186 Q130 194 140 186"/>
+                    <path class="mouth m-bad" d="M98 196 Q120 168 142 196 Q120 186 98 196Z"/>
+                    <path class="sweat" d="M200 70 q-10 16 0 22 q10 -6 0 -22z"/>
+                    <path class="tick" d="M104 222 l10 10 l20 -22"/>
+                </svg>
+
+                <div class="gauge">
+                    <svg viewBox="0 0 220 130" aria-hidden="true">
+                        <defs><linearGradient id="gg" x1="0" x2="1"><stop offset="0" stop-color="#5af2c4"/><stop offset=".5" stop-color="#ffd23f"/><stop offset="1" stop-color="#ff6f91"/></linearGradient></defs>
+                        <path class="g-bg" d="M20 110 A90 90 0 0 1 200 110"/>
+                        <path class="g-fill" id="gFill" d="M20 110 A90 90 0 0 1 200 110"/>
+                        <g class="needle" id="needle"><line x1="110" y1="110" x2="110" y2="36"/><circle cx="110" cy="110" r="9"/></g>
+                    </svg>
+                    <div class="score"><b id="scoreNum">0</b><small>/ 100 risk</small></div>
+                </div>
+                <div class="status" id="status">Safe</div>
+                <p class="status-sub" id="statusSub"></p>
+            </div>
+
+            <div class="panel">
+                <h2>URL anatomy</h2>
+                <div class="anatomy" id="anatomy"></div>
+                <div class="parts" id="parts"></div>
+
+                <h2>What Shieldy found</h2>
+                <ul class="findings" id="findings"></ul>
+            </div>
+        </div>
+
+        <h2 class="sec">Safety recommendations</h2>
+        <div class="recs" id="recs"></div>
+    </section>
+
+    <section class="history" id="history">
+        <div class="hist-head">
+            <h2>Scan history</h2>
+            <button class="btn ghost small" id="clearHist" type="button">🗑️ Clear all</button>
+        </div>
+        <div class="hist-list" id="histList"></div>
+        <p class="empty" id="histEmpty">📭 No scans yet. Your last 15 scans will appear here, saved on this device only.</p>
+    </section>
+
+    <p class="note">⚠️ Shieldy checks the <b>shape of the link</b>, not the page itself. A "Safe" result is not a guarantee. When money or passwords are involved, type the official address yourself.</p>
+</main>
+
+<footer><p>🛡️ CyberShield · Think before you click.</p></footer>
+<div class="toast" id="toast"></div>
+<script src="phishing_page.js"></script>
+</body>
+</html>

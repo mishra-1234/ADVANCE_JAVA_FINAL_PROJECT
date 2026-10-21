@@ -1,6 +1,5 @@
 /* ==========================================================================
-   CyberShield — report-incident.js
-   Vanilla JS only. Frontend validation only — no backend connection yet.
+   CyberShield — report-incident.js (Updated for Backend & Database Integration)
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -242,7 +241,7 @@ function validateForm() {
 }
 
 /* --------------------------------------------------------------------------
-   Form submission — validate, show loading state, then success overlay
+   Form submission — validate, show loading state, then submit to Servlet
    -------------------------------------------------------------------------- */
 function initFormSubmit() {
     const form = document.getElementById('incidentForm');
@@ -253,6 +252,7 @@ function initFormSubmit() {
     const btnLabel = submitBtn.querySelector('.btn__label');
 
     form.addEventListener('submit', (event) => {
+        // Prevent default submission to run frontend validation first
         event.preventDefault();
 
         try {
@@ -274,21 +274,12 @@ function initFormSubmit() {
 }
 
 function submitIncident(form, submitBtn, btnLabel) {
-    // TODO (backend): replace this simulated delay with a real request, e.g.
-    // fetch('report-incident', { method: 'POST', body: new FormData(form) })
-    //   .then(handleServerResponse)
-    //   .catch(handleServerError);
     form.classList.add('is-loading');
     submitBtn.disabled = true;
-    const originalLabel = btnLabel.textContent;
-    btnLabel.textContent = 'Submitting...';
+    btnLabel.textContent = 'Submitting to Database...';
 
-    setTimeout(() => {
-        form.classList.remove('is-loading');
-        submitBtn.disabled = false;
-        btnLabel.textContent = originalLabel;
-        showSuccessOverlay();
-    }, 1500);
+    // 🚀 Actual submission to IncidentServlet (/submit-incident)
+    form.submit();
 }
 
 /* --------------------------------------------------------------------------
@@ -360,12 +351,11 @@ function initCancelButton() {
                 event.preventDefault();
             }
         }
-        // If confirmed (or no content), the <a href="dashboard.html"> navigates normally.
     });
 }
 
 /* --------------------------------------------------------------------------
-   Success overlay
+   Success overlay (Handled via Servlet redirect, kept for auxiliary hooks)
    -------------------------------------------------------------------------- */
 function initSuccessOverlay() {
     const reportAnotherBtn = document.getElementById('reportAnotherBtn');
