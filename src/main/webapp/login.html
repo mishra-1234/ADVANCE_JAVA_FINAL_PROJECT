@@ -8,7 +8,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="login.css">
-
 </head>
 <body>
 <main class="auth">
@@ -60,7 +59,6 @@
             </ul>
         </div>
 
-        <!-- Signature visual: same radar/scan motif as homepage, reduced -->
         <div class="auth__visual" aria-hidden="true">
             <div class="radar">
                 <div class="radar__ring radar__ring--1"></div>
@@ -100,7 +98,7 @@
             <h2 class="login-card__title">Welcome Back</h2>
             <p class="login-card__subtitle">Sign in to access your security dashboard.</p>
 
-            <form class="login-form" id="loginForm" action="login"  method="post" novalidate>
+            <form class="login-form" id="loginForm" action="login" method="post" novalidate>
 
                 <!-- Email -->
                 <div class="form-field" id="emailField">
@@ -151,9 +149,9 @@
                         <span class="checkbox__box" aria-hidden="true"></span>
                         Remember me
                     </label>
-                    <button type="button" class="link-btn" id="forgotPassword">Forgot Password?</button>
+                    <!-- Yahan button ki jagah direct link lagaya gaya hai -->
+                    <a href="forgot-password.html" class="link-btn" id="forgotPassword" style="text-decoration: none;">Forgot Password?</a>
                 </div>
-                <p class="inline-note" id="forgotNote" role="status"></p>
 
                 <!-- Submit -->
                 <button type="submit" class="btn btn--primary btn--block" id="loginBtn">
@@ -182,15 +180,11 @@
 
 </main>
 
-
-
-<button  type="button" class="admin-panel-btn" id="adminPanelBtn" onclick="openAdminPanel()" aria-label="Open Admin Panel">
+<button type="button" class="admin-panel-btn" id="adminPanelBtn" onclick="openAdminPanel()" aria-label="Open Admin Panel">
     <span class="admin-icon">🛡</span>
     <span>Admin Panel</span>
     <span class="admin-arrow">→</span>
 </button>
-
-
 
 <script src="login.js"></script>
 

@@ -1,18 +1,17 @@
 /* ==========================================================================
    CyberShield — login.js
-   Vanilla JS only. Frontend validation only, no backend connection.
+   Vanilla JS only.
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
     initPasswordToggle();
-    initForgotPassword();
     initInputLiveClear();
     initLoginForm();
 });
 
 /* --------------------------------------------------------------------------
-   1. Password show / hide
-   -------------------------------------------------------------------------- */
+1. Password show / hide
+-------------------------------------------------------------------------- */
 function initPasswordToggle() {
     const toggleBtn = document.getElementById('togglePassword');
     const passwordInput = document.getElementById('password');
@@ -67,7 +66,7 @@ function setFieldState(fieldEl, errorEl, errorMessage) {
 }
 
 /* --------------------------------------------------------------------------
-   7. Input UX — clear error state as the user types, keep it simple
+   7. Input UX — clear error state as the user types
    -------------------------------------------------------------------------- */
 function initInputLiveClear() {
     const emailInput = document.getElementById('email');
@@ -95,26 +94,7 @@ function initInputLiveClear() {
 }
 
 /* --------------------------------------------------------------------------
-   6. Forgot password — informational message only
-   -------------------------------------------------------------------------- */
-function initForgotPassword() {
-    const forgotBtn = document.getElementById('forgotPassword');
-    const note = document.getElementById('forgotNote');
-    if (!forgotBtn || !note) return;
-
-    forgotBtn.addEventListener('click', () => {
-        note.textContent = 'Password recovery will be available soon.';
-        note.classList.add('is-visible');
-
-        clearTimeout(initForgotPassword._timeoutId);
-        initForgotPassword._timeoutId = setTimeout(() => {
-            note.classList.remove('is-visible');
-        }, 4000);
-    });
-}
-
-/* --------------------------------------------------------------------------
-   4 & 5. Form validation + fake loading / success flow
+   4 & 5. Form validation + login flow
    -------------------------------------------------------------------------- */
 function initLoginForm() {
     const form = document.getElementById('loginForm');
@@ -128,11 +108,8 @@ function initLoginForm() {
     const passwordField = document.getElementById('passwordField');
     const emailError = document.getElementById('emailError');
     const passwordError = document.getElementById('passwordError');
-    const btnLabel = loginBtn.querySelector('.btn__label');
 
     form.addEventListener('submit', (event) => {
-      //  event.preventDefault();
-
         try {
             const emailErrorMsg = validateEmail(emailInput.value);
             const passwordErrorMsg = validatePassword(passwordInput.value);
@@ -141,35 +118,16 @@ function initLoginForm() {
             setFieldState(passwordField, passwordError, passwordErrorMsg);
 
             if (emailErrorMsg || passwordErrorMsg) {
+                event.preventDefault();
                 showFormMessage(formMessage, 'Please fix the highlighted fields.', 'error');
                 return;
             }
-
-            runLoadingState(form, loginBtn, btnLabel, formMessage);
         } catch (error) {
+            event.preventDefault();
             console.error('CyberShield: login validation failed unexpectedly.', error);
             showFormMessage(formMessage, 'Something went wrong. Please try again.', 'error');
         }
     });
-}
-
-function runLoadingState(form, loginBtn, btnLabel, formMessage) {
-    form.classList.add('is-loading');
-    loginBtn.disabled = true;
-    const originalLabel = btnLabel.textContent;
-    btnLabel.textContent = 'Signing In...';
-    showFormMessage(formMessage, '', null); // clear any previous message
-
-    setTimeout(() => {
-        form.classList.remove('is-loading');
-        loginBtn.disabled = false;
-        btnLabel.textContent = originalLabel;
-        showFormMessage(
-            formMessage,
-            'Login successful! Backend authentication will be connected soon.',
-            'success'
-        );
-    }, 1500);
 }
 
 function showFormMessage(el, message, type) {
@@ -178,7 +136,8 @@ function showFormMessage(el, message, type) {
     if (!message) return;
     el.classList.add(type === 'success' ? 'is-success' : 'is-error', 'is-visible');
 }
-const ADMIN_PANEL_URL = 'adminlogin.jsp'; // change to your admin page / route
+
+const ADMIN_PANEL_URL = 'adminlogin.jsp';
 
 function openAdminPanel() {
     const btn = document.getElementById('adminPanelBtn');
@@ -189,5 +148,3 @@ function openAdminPanel() {
     }
     setTimeout(() => { window.location.href = ADMIN_PANEL_URL; }, 600);
 }
-
-

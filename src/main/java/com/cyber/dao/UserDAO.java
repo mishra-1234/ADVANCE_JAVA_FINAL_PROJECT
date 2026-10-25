@@ -10,13 +10,10 @@ import java.sql.ResultSet;
 public class UserDAO {
 
     public boolean registerUser(User user) {
-
-        String sql ="insert into  users (full_name, employee_id, email, department, password, role) values (?,?,?,?,?,?)";
-
+        String sql = "insert into users (full_name, employee_id, email, department, password, role) values (?,?,?,?,?,?)";
 
         try (Connection connection = DBconnection.getConnection();
-             PreparedStatement statement =
-                     connection.prepareStatement(sql)) {
+             PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setString(1, user.getFullName());
             statement.setString(2, user.getEmployeeId());
@@ -26,27 +23,21 @@ public class UserDAO {
             statement.setString(6, user.getRole());
 
             int rows = statement.executeUpdate();
-
             return rows > 0;
 
         } catch (Exception e) {
-
-
             System.out.println("========== DATABASE ERROR ==========");
             System.out.println("Error Message: " + e.getMessage());
-
             e.printStackTrace();
             return false;
         }
     }
 
     public User loginUser(String email, String password) {
-
-        String sql = "select *from users where email = ? and password = ? ";
+        String sql = "select * from users where email = ? and password = ? ";
 
         try (Connection connection = DBconnection.getConnection();
-             PreparedStatement statement =
-                     connection.prepareStatement(sql)) {
+             PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setString(1, email);
             statement.setString(2, password);
@@ -54,9 +45,7 @@ public class UserDAO {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-
                 User user = new User();
-
                 user.setId(resultSet.getInt("id"));
                 user.setFullName(resultSet.getString("full_name"));
                 user.setEmployeeId(resultSet.getString("employee_id"));
@@ -69,10 +58,37 @@ public class UserDAO {
             }
 
         } catch (Exception e) {
-
             e.printStackTrace();
         }
 
         return null;
+    }
+
+    // --- Forgot Password Methods ---
+    public boolean checkEmailExists(String email) {
+        String sql = "select * from users where email = ?";
+        try (Connection connection = DBconnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+            return resultSet.next();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean updatePasswordByEmail(String email, String newPassword) {
+        String sql = "update users set password = ? where email = ?";
+        try (Connection connection = DBconnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, newPassword);
+            statement.setString(2, email);
+            int rows = statement.executeUpdate();
+            return rows > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

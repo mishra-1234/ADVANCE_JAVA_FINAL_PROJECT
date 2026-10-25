@@ -8,7 +8,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="signup.css">
-
 </head>
 <body>
 <main class="auth">
@@ -60,7 +59,6 @@
             </ul>
         </div>
 
-        <!-- Signature visual: shield + network nodes, same motif family as index/login -->
         <div class="auth__visual" aria-hidden="true">
             <svg class="network-svg" viewBox="0 0 220 190" fill="none">
                 <g stroke="#3b82f6" stroke-width="1" opacity="0.35">
@@ -104,7 +102,8 @@
             <h2 class="register-card__title">Create Your Account</h2>
             <p class="register-card__subtitle">Register to report and track cybersecurity incidents.</p>
 
-            <form class="register-form" id="registerForm" action="/AD-PROJECT/register" method="post" novalidate>
+            <!-- FIXED ACTION PATH HERE -->
+            <form class="register-form" id="registerForm" action="register" method="post" novalidate>
 
                 <!-- Full Name -->
                 <div class="form-field" id="fullNameField">
@@ -248,7 +247,6 @@
 </main>
 
 <script src="signup.js"></script>
-
 
 </body>
 </html>
