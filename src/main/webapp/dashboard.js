@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initSidebarToggle();
     initSidebarNavHighlight();
     initDropdowns();
+    initProfileModal();
     initTableFilter();
     initTableSearch();
     initLogout();
@@ -37,6 +38,9 @@ async function loadUserInfo() {
 
         const userName = data.userName;
         const role = data.role;
+        const email = data.email || '—';
+        const empId = data.employeeId || '—';
+        const dept = data.department || '—';
 
         const nameEl = document.getElementById('userNameDisplay');
         const roleEl = document.getElementById('userRoleDisplay');
@@ -47,6 +51,21 @@ async function loadUserInfo() {
         if (roleEl) roleEl.textContent = role;
         if (avatarEl) avatarEl.textContent = getInitials(userName);
         if (greetingEl) greetingEl.textContent = userName.split(' ')[0];
+
+        // Fill Profile Card Details
+        const pAvatar = document.getElementById('profileModalAvatar');
+        const pName   = document.getElementById('profileModalName');
+        const pRole   = document.getElementById('profileModalRole');
+        const pEmail  = document.getElementById('profileModalEmail');
+        const pEmpId  = document.getElementById('profileModalEmpId');
+        const pDept   = document.getElementById('profileModalDept');
+
+        if (pAvatar) pAvatar.textContent = getInitials(userName);
+        if (pName) pName.textContent = userName;
+        if (pRole) pRole.textContent = role;
+        if (pEmail) pEmail.textContent = email;
+        if (pEmpId) pEmpId.textContent = empId;
+        if (pDept) pDept.textContent = dept ? dept.toUpperCase() : '—';
 
     } catch (error) {
         console.error("Failed to load user session:", error);
@@ -506,4 +525,54 @@ function showToast(message) {
     } catch (error) {
         console.error('CyberShield: unable to display toast message.', error);
     }
+}
+
+/* --------------------------------------------------------------------------
+   Profile Details Card Modal
+   -------------------------------------------------------------------------- */
+function initProfileModal() {
+    const viewBtn = document.getElementById('viewProfileBtn');
+    const panel = document.getElementById('profileCardPanel');
+    const closeBtn = document.getElementById('closeProfileCardBtn');
+    const profileDropdown = document.getElementById('profilePanel');
+    const sidebarProfileLink = document.querySelector('.sidebar__nav a[data-page="profile"]');
+
+    if (!panel) return;
+
+    const togglePanel = (e) => {
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        if (profileDropdown) profileDropdown.classList.remove('is-open');
+        panel.hidden = !panel.hidden;
+    };
+
+    if (viewBtn) {
+        viewBtn.addEventListener('click', togglePanel);
+    }
+
+    if (sidebarProfileLink) {
+        sidebarProfileLink.addEventListener('click', togglePanel);
+    }
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            panel.hidden = true;
+        });
+    }
+
+    // Close when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!panel.hidden && !panel.contains(e.target) && e.target !== viewBtn) {
+            panel.hidden = true;
+        }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !panel.hidden) {
+            panel.hidden = true;
+        }
+    });
 }

@@ -770,3 +770,117 @@ input { font: inherit; }
 
 /* Added: sidebar menu scrolls if there are more items than the screen height */
 .sidebar__nav { overflow-y: auto; min-height: 0; scrollbar-width: thin; scrollbar-color: rgba(148,163,184,.3) transparent; }
+
+/* ============ PROFILE DETAILS CARD ============ */
+.profile-card-panel {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    width: 310px;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.14), 0 0 0 1px rgba(15, 23, 42, 0.08);
+    padding: 16px;
+    z-index: 150;
+    animation: profileSlideDown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes profileSlideDown {
+    from { opacity: 0; transform: translateY(-8px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.profile-card-panel__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.profile-card-panel__user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.profile-card-panel__user h4 {
+    margin: 0;
+    font-size: 0.94rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.avatar--lg {
+    width: 44px;
+    height: 44px;
+    font-size: 1rem;
+    font-weight: 700;
+    background: #2563eb;
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.profile-badge {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #2563eb;
+    background: #eff6ff;
+    padding: 2px 8px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    margin-top: 3px;
+}
+
+.profile-card-panel__body {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    margin-top: 14px;
+}
+
+.profile-detail-row {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.profile-detail-label {
+    font-size: 0.7rem;
+    color: #64748b;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.profile-detail-value {
+    font-size: 0.88rem;
+    color: #0f172a;
+    font-weight: 600;
+    word-break: break-all;
+}
+
+.icon-btn--sm {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: #64748b;
+    transition: background 0.15s, color 0.15s;
+}
+
+.icon-btn--sm:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+}

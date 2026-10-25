@@ -136,9 +136,37 @@
                         <svg viewBox="0 0 24 24" width="15" height="15" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </button>
                     <div class="dropdown__panel dropdown__panel--profile" id="profilePanel" role="menu">
-                        <a href="#profile" class="dropdown__item">View Profile</a>
+                        <button type="button" class="dropdown__item" id="viewProfileBtn">View Profile</button>
                         <a href="#settings" class="dropdown__item">Settings</a>
                         <button type="button" class="dropdown__item dropdown__item--danger" id="profileLogoutBtn">Logout</button>
+                    </div>
+
+                    <!-- PROFILE DETAILS CARD (Beside / Below Profile Button) -->
+                    <div class="profile-card-panel" id="profileCardPanel" role="dialog" aria-label="User Profile" hidden>
+                        <div class="profile-card-panel__header">
+                            <div class="profile-card-panel__user">
+                                <span class="avatar avatar--lg" id="profileModalAvatar">U</span>
+                                <div>
+                                    <h4 id="profileModalName">User Name</h4>
+                                    <span class="profile-badge" id="profileModalRole">EMPLOYEE</span>
+                                </div>
+                            </div>
+                            <button type="button" class="icon-btn icon-btn--sm" id="closeProfileCardBtn" aria-label="Close Profile">✕</button>
+                        </div>
+                        <div class="profile-card-panel__body">
+                            <div class="profile-detail-row">
+                                <span class="profile-detail-label">Employee ID</span>
+                                <span class="profile-detail-value" id="profileModalEmpId">—</span>
+                            </div>
+                            <div class="profile-detail-row">
+                                <span class="profile-detail-label">Email Address</span>
+                                <span class="profile-detail-value" id="profileModalEmail">—</span>
+                            </div>
+                            <div class="profile-detail-row">
+                                <span class="profile-detail-label">Department</span>
+                                <span class="profile-detail-value" id="profileModalDept">—</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,5 +1,6 @@
 package com.cyber.servlet;
 
+import com.cyber.model.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -8,7 +9,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-
 
 @WebServlet("/user-session")
 public class UserSessionServlet extends HttpServlet {
@@ -23,29 +23,28 @@ public class UserSessionServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
 
         if (session == null ||
-                session.getAttribute("userName") == null) {
+                (session.getAttribute("user") == null && session.getAttribute("userName") == null)) {
 
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write(
-                    "{\"loggedIn\":false}"
-            );
+            response.getWriter().write("{\"loggedIn\":false}");
             return;
         }
 
-        String userName =
-                (String) session.getAttribute("userName");
+        User user = (User) session.getAttribute("user");
 
-        String role =
-                (String) session.getAttribute("role");
+        String name  = (user != null) ? user.getFullName() : (String) session.getAttribute("userName");
+        String role  = (user != null) ? user.getRole() : (String) session.getAttribute("role");
+        String email = (user != null) ? user.getEmail() : "";
+        String empId = (user != null) ? user.getEmployeeId() : "";
+        String dept  = (user != null) ? user.getDepartment() : "";
 
-        response.getWriter().write(
-                "{\"loggedIn\":true,\"userName\":\""
-                        + userName
-                        + "\",\"role\":\""
-                        + role
-                        + "\"}"
-        );
+        response.getWriter().write("{"
+                + "\"loggedIn\": true,"
+                + "\"userName\": \"" + (name != null ? name : "") + "\","
+                + "\"role\": \"" + (role != null ? role : "") + "\","
+                + "\"email\": \"" + (email != null ? email : "") + "\","
+                + "\"employeeId\": \"" + (empId != null ? empId : "") + "\","
+                + "\"department\": \"" + (dept != null ? dept : "") + "\""
+                + "}");
     }
-
-
 }
