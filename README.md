@@ -12,6 +12,7 @@ A full-stack web application featuring an **Angular** frontend and an **Advanced
 - **Case Tracking & Status Updates:** Real-time updates and notifications for filed complaints via unique case reference IDs.
 - **Investigation Workflow:** Allows officers to assign cases, update investigation remarks, attach forensic notes, and generate charge sheets/reports.
 - **Analytics & Crime Trends:** Visual reporting dashboard highlighting prevalent cybercrime categories, hotspot zones, and resolution rates.
+
 ---
 
 ## 🛠️ Tech Stack
@@ -26,9 +27,9 @@ A full-stack web application featuring an **Angular** frontend and an **Advanced
 - **Build Tool:** Apache Maven (`pom.xml`)
 - **Server:** Apache Tomcat (configured via `.smarttomcat`)
 
-- ---
+---
 
-- ## 👥 Contributors
+## 👥 Contributors
 
 - [@Mrutyunjaya940](https://github.com/Mrutyunjaya940)
 - [@mishra-1234](https://github.com/mishra-1234)
