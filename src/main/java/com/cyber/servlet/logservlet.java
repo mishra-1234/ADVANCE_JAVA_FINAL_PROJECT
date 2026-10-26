@@ -15,49 +15,41 @@ import java.io.IOException;
 public class logservlet extends HttpServlet {
 
 
-    private  final UserDAO userDAO = new UserDAO();
+    private final UserDAO userDAO = new UserDAO();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-
-
-
         System.out.println("LOGIN SERVLET CALLED");
 
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
 
-        String email=request.getParameter("email");
-        String password=request.getParameter("password");
-
-        System.out.println("Email: "+email);
+        System.out.println("Email: " + email);
         System.out.println("Password: " + password);
-        User user=userDAO.loginUser(email,password);
-
+        User user = userDAO.loginUser(email, password);
 
         System.out.println("USER OBJECT: " + user);
-        if(user!=null){
-        HttpSession session = request.getSession();
 
+        if (user != null) {
+            HttpSession session = request.getSession();
 
             System.out.println("login succes");
 
+            // Session attributes set karein
             session.setAttribute("user", user);
             session.setAttribute("userId", user.getId());
             session.setAttribute("userName", user.getFullName());
             session.setAttribute("role", user.getRole());
 
+            // Ye line add ki gayi hai taaki SettingsServlet easily email access kar sake
+            session.setAttribute("userEmail", user.getEmail());
+
             response.sendRedirect("dashboard.html");
 
-
-    }
-        else
-        {
+        } else {
             System.out.println("login faild");
 
             response.sendRedirect("login.html?error=invalid");
         }
-
-
-
     }
-
 }

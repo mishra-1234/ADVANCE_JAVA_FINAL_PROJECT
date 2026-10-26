@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Settings - CyberShield</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="login.css">
+    <style>
+        body { background-color: #0f172a; color: #f8fafc; font-family: 'Manrope', sans-serif; margin: 0; padding: 20px; }
+        .settings-container { max-width: 900px; margin: 30px auto; background: #1e293b; padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        .settings-header { margin-bottom: 25px; border-bottom: 1px solid #334155; padding-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .settings-header h2 { margin: 0; color: #3b82f6; }
+        .settings-section { margin-bottom: 30px; background: #0f172a; padding: 20px; border-radius: 8px; border: 1px solid #334155; }
+        .settings-section h3 { font-size: 16px; margin-top: 0; margin-bottom: 15px; color: #3b82f6; border-bottom: 1px solid #1e293b; padding-bottom: 8px; }
+        .form-row { display: flex; gap: 15px; margin-bottom: 15px; }
+        .form-group { flex: 1; margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-size: 13px; color: #94a3b8; }
+        .form-group input, .form-group select { width: 100%; padding: 10px; background: #1e293b; border: 1px solid #334155; border-radius: 6px; color: #fff; box-sizing: border-box; }
+        .setting-toggle-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #1e293b; }
+        .setting-toggle-row:last-child { border-bottom: none; }
+        .setting-info title { font-weight: 600; font-size: 14px; display: block; }
+        .setting-info desc { font-size: 12px; color: #94a3b8; display: block; }
+
+        /* Toggle Switch CSS */
+        .switch { position: relative; display: inline-block; width: 46px; height: 24px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: cursor; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #334155; transition: .4s; border-radius: 24px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #2563eb; }
+        input:checked + .slider:before { transform: translateX(22px); }
+
+        .btn-action { background: #2563eb; color: #fff; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+        .btn-action:hover { background: #1d4ed8; }
+        .btn-danger { background: #dc2626; color: #fff; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+        .btn-danger:hover { background: #b91c1c; }
+        .back-link { color: #3b82f6; text-decoration: none; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<div class="settings-container">
+    <div class="settings-header">
+        <h2>System Settings</h2>
+        <a href="dashboard.html" class="back-link">← Back to Dashboard</a>
+    </div>
+
+    <!-- 1. ACCOUNT SETTINGS -->
+    <div class="settings-section">
+        <h3>1. Account & Security (Password)</h3>
+        <form action="settings" method="POST">
+            <input type="hidden" name="action" value="changePassword">
+            <div class="form-group">
+                <label>Current Password</label>
+                <input type="password" name="currentPassword" placeholder="Enter current password" required>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>New Password</label>
+                    <input type="password" name="newPassword" placeholder="Enter new password" required>
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="password" name="confirmPassword" placeholder="Confirm new password" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Preferred Language</label>
+                <select name="language">
+                    <option value="en">English</option>
+                    <option value="hi">Hindi (हिंदी)</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-action">Update Account Settings</button>
+        </form>
+    </div>
+
+    <!-- 2. SECURITY PREFERENCES -->
+    <div class="settings-section">
+        <h3>2. Advanced Security</h3>
+        <div class="setting-toggle-row">
+            <div class="setting-info">
+                <span class="title">Two-Factor Authentication (2FA)</span>
+                <span class="desc">Add an extra layer of security to your account.</span>
+            </div>
+            <label class="switch">
+                <input type="checkbox" id="twoFaToggle">
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="setting-toggle-row" style="margin-top: 15px;">
+            <div class="setting-info">
+                <span class="title">Active Sessions</span>
+                <span class="desc">Terminate all other active sessions across devices.</span>
+            </div>
+            <button type="button" class="btn-danger" onclick="logoutAllDevices()">Logout All Devices</button>
+        </div>
+    </div>
+
+    <!-- 3. NOTIFICATIONS -->
+    <div class="settings-section">
+        <h3>3. Notifications</h3>
+        <div class="setting-toggle-row">
+            <div class="setting-info">
+                <span class="title">Email Notifications</span>
+                <span class="desc">Receive important security updates via email.</span>
+            </div>
+            <label class="switch">
+                <input type="checkbox" id="emailNotifToggle" checked>
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="setting-toggle-row" style="margin-top: 15px;">
+            <div class="setting-info">
+                <span class="title">Incident Status Alerts</span>
+                <span class="desc">Get notified when an incident status changes.</span>
+            </div>
+            <label class="switch">
+                <input type="checkbox" id="incidentAlertToggle" checked>
+                <span class="slider"></span>
+            </label>
+        </div>
+    </div>
+
+    <!-- 4. APPEARANCE -->
+    <div class="settings-section">
+        <h3>4. Appearance</h3>
+        <div class="setting-toggle-row">
+            <div class="setting-info">
+                <span class="title">Dark Mode</span>
+                <span class="desc">Use dark theme across the dashboard interface.</span>
+            </div>
+            <label class="switch">
+                <input type="checkbox" id="darkModeToggle" checked disabled>
+                <span class="slider"></span>
+            </label>
+        </div>
+    </div>
+
+</div>
+
+<script src="settings.js"></script>
+</body>
+</html>
