@@ -49,6 +49,21 @@
         .btn-action-primary:hover { background: #1d4ed8; }
         .btn-action-danger { background: #dc2626; color: #fff; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; }
         .btn-action-danger:hover { background: #b91c1c; }
+
+        /* Dark Mode Global Overrides */
+        body.dark-mode, body.dark-mode .main {
+            background-color: #0f172a !important;
+            color: #f8fafc !important;
+        }
+
+        /* Jab dark mode ho toh panels aur containers ka background dark ho jaye */
+        body.dark-mode .panel,
+        body.dark-mode .settings-container-box,
+        body.dark-mode .settings-card-group {
+            background-color: #1e293b !important;
+            color: #f8fafc !important;
+            border-color: #334155 !important;
+        }
     </style>
 </head>
 <body>
@@ -457,7 +472,7 @@
                                 <span class="desc">Use dark theme across the dashboard interface.</span>
                             </div>
                             <label class="switch-toggle">
-                                <input type="checkbox" id="darkModeToggle" checked disabled>
+                                <input type="checkbox" id="darkModeToggle">
                                 <span class="slider-track"></span>
                             </label>
                         </div>
@@ -524,6 +539,32 @@
             twoFaToggle.checked = localStorage.getItem('cyber_2fa') === 'true';
             twoFaToggle.addEventListener('change', () => {
                 localStorage.setItem('cyber_2fa', twoFaToggle.checked);
+            });
+        }
+
+        // Dark mode logic
+        const mainContentArea = document.querySelector('.main');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+
+        function applyTheme(isDark) {
+            if (isDark) {
+                document.body.classList.add('dark-mode');
+                mainContentArea.style.backgroundColor = '#0f172a';
+                mainContentArea.style.color = '#f8fafc';
+            } else {
+                document.body.classList.remove('dark-mode');
+                mainContentArea.style.backgroundColor = '#f1f5f9';
+                mainContentArea.style.color = '#0f172a';
+            }
+        }
+
+        if (darkModeToggle) {
+            const savedDark = localStorage.getItem('cyber_dark_mode') === 'true';
+            darkModeToggle.checked = savedDark;
+            applyTheme(savedDark);
+            darkModeToggle.addEventListener('change', () => {
+                localStorage.setItem('cyber_dark_mode', darkModeToggle.checked);
+                applyTheme(darkModeToggle.checked);
             });
         }
     });
